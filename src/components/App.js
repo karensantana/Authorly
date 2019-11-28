@@ -1,8 +1,11 @@
 import React from 'react';
-import { selectAuthor } from '../actions';
-
+import AuthorList from './AuthorList';
 const App = () => {
-    return <div>App</div>
+    return (
+        <div>
+            <AuthorList />
+        </div>
+    )
 }
 
 export default App;
