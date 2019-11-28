@@ -1,0 +1,1 @@
+export const SELECTED_AUTHOR = 'SELECTED_AUTHOR';
