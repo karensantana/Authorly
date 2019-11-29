@@ -3,6 +3,7 @@ import { createSelector } from 'reselect'
 const getPublications = state => state.publications
 const getSortingKey = state => state.sortings.sortingKey
 const getSortingOrder = state => state.sortings.sortingOrder
+const getAuthor = state => state.authors.selectedAuthor 
 
 function compare(a, b) {
     // Use toUpperCase() to ignore character casing
@@ -18,8 +19,24 @@ function compare(a, b) {
     return comparison;
 }
 
+const getFilteredPublications = createSelector(
+    [getAuthor, getPublications],
+    (author, publications) => {
+        if (!author) {
+            return publications;
+        }
+        else {
+            return (
+                publications.filter( function (publication) {
+                    return publication.author == author.email
+                })
+            );
+        }
+    }
+);
+
 export const getSortedPublications = createSelector(
-    [getPublications, getSortingKey, getSortingOrder],
+    [getFilteredPublications, getSortingKey, getSortingOrder],
     (publications, sortingKey, sortingOrder) => {
            
         switch (sortingKey) {
