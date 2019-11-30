@@ -1,9 +1,10 @@
 import { createSelector } from 'reselect'
 
 const getPublications = state => state.publications
-const getSortingKey = state => state.sortings.sortingKey
-const getSortingOrder = state => state.sortings.sortingOrder
+const getSortingKey = state => state.dataOrderParameters.sortingKey
+const getSortingOrder = state => state.dataOrderParameters.sortingOrder
 const getAuthor = state => state.authors.selectedAuthor 
+const getSearchByTitle = state => state.dataOrderParameters.searchTitle
 
 function compare(a, b) {
     // Use toUpperCase() to ignore character casing
@@ -18,9 +19,23 @@ function compare(a, b) {
     }
     return comparison;
 }
-
-const getFilteredPublications = createSelector(
-    [getAuthor, getPublications],
+const getFilteredByTitle = createSelector(
+    [getSearchByTitle, getPublications],
+    (searchByTitle, publications ) => {
+        if (searchByTitle) {
+            return (
+                publications.filter( function (publication) {
+                    return publication.title.toLowerCase().includes(searchByTitle.toLowerCase());
+                })
+            );   
+        }
+        else { 
+            return publications;
+        } 
+    }
+);
+const getFilteredByAuthor = createSelector(
+    [getAuthor, getFilteredByTitle],
     (author, publications) => {
         if (!author) {
             return publications;
@@ -28,7 +43,7 @@ const getFilteredPublications = createSelector(
         else {
             return (
                 publications.filter( function (publication) {
-                    return publication.author == author.email
+                    return publication.author === author.email
                 })
             );
         }
@@ -36,19 +51,19 @@ const getFilteredPublications = createSelector(
 );
 
 export const getSortedPublications = createSelector(
-    [getFilteredPublications, getSortingKey, getSortingOrder],
+    [getFilteredByAuthor, getSortingKey, getSortingOrder],
     (publications, sortingKey, sortingOrder) => {
            
         switch (sortingKey) {
             case 'DATE':
-                if( sortingOrder == 'ASC') {
+                if( sortingOrder === 'ASC') {
                   return publications.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0)); 
                 }
                 else {
                     return publications.sort((a,b) => (a.date < b.date) ? 1 : ((b.date < a.date) ? -1 : 0));  
                 }
             case 'TITLE':
-                if( sortingOrder == 'ASC') {
+                if( sortingOrder === 'ASC') {
                     return publications.sort(compare); 
                 }
                 else {

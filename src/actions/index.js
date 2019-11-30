@@ -1,5 +1,11 @@
-import { SELECTED_AUTHOR, SELECTED_SORTING_ORDER, SELECTED_SORTING_KEY } from './actionTypes';
+import { SELECTED_AUTHOR, SELECTED_SORTING_ORDER, SELECTED_SORTING_KEY, SEARCH_BY_TITLE } from './actionTypes';
 
+export function searchByTitle (title) {
+    return {
+        type: SEARCH_BY_TITLE,
+        payload: title
+    }
+}
 
 export function selectedAuthor (author) {
     return {

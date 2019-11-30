@@ -19,7 +19,6 @@ class VisibleTableList extends Component {
 }
 
 const mapStateToProps = state => {
-    console.log(state);
     return {
         publications: getSortedPublications(state)
        

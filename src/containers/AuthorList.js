@@ -21,7 +21,6 @@ class AuthorList extends Component {
 }
 
 const mapStateToProps = state => {
-    console.log(state);
     return { authors: state.authors};
 }
 
