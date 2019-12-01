@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { searchByTitle } from '../actions'
+import { searchByTitle, selectedPage } from '../actions'
 import InputBase from '@material-ui/core/InputBase';
 import styled from 'styled-components';
-import { StylesProvider } from '@material-ui/core/styles';
 
 const StyledInputBase = styled(InputBase)`
     &&{
@@ -35,7 +34,10 @@ class SearchTermContainer extends Component {
                     value:  this.props.searchTitle,
                     placeholder: 'Enter title'
                 }}
-                onChange={(event) => this.handleChange(event.target.value)} />
+                onChange={(event) => {
+                    this.handleChange(event.target.value)
+                    this.props.selectedPage(0);
+                }} />
             </StyledSearchWrapper> 
         );
     }
@@ -49,5 +51,7 @@ const mapStateToProps = (state) => {
 
 export default connect(
     mapStateToProps,
-    { searchByTitle }
+    {   searchByTitle,
+        selectedPage
+    }
     )(SearchTermContainer)

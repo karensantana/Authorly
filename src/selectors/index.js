@@ -4,9 +4,6 @@ const getSortingKey = state => state.dataOrderParameters.sortingKey
 const getSortingOrder = state => state.dataOrderParameters.sortingOrder
 const getAuthor = state => state.authors.selectedAuthor 
 const getSearchByTitle = state => state.dataOrderParameters.searchTitle
-const getPage = state => state.dataOrderParameters.page
-const getRowsPerPage = state => state.dataOrderParameters.rowsPerPage
-
 //Sorting function
 function desc(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -19,7 +16,6 @@ function desc(a, b, orderBy) {
 }
 
 //List of Composed Selectors
-
 const getFilteredByTitle = createSelector(
     [getSearchByTitle, getPublications],
     (searchByTitle, publications ) => {
@@ -35,6 +31,7 @@ const getFilteredByTitle = createSelector(
         } 
     }
 );
+
 const getFilteredByAuthor = createSelector(
     [getAuthor, getFilteredByTitle],
     (author, publications) => {
