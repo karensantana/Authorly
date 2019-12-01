@@ -9,8 +9,7 @@ import { selectedSortingKey,
     } from '../actions';
 
 class VisibleTableList extends Component {
-    render() {
-        
+    render() {   
         return (
             <div> 
                 <PublicationsTable 
@@ -30,7 +29,6 @@ class VisibleTableList extends Component {
 }
 
 const mapStateToProps = state => {
-    console.log(state);
     return {
         publications: getSortedPublications(state),
         sortingOrder: state.dataOrderParameters.sortingOrder,

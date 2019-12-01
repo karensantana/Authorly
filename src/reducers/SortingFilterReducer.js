@@ -1,3 +1,4 @@
+//Importing actions types
 import { 
     SELECTED_SORTING_ORDER, 
     SELECTED_SORTING_KEY, 

@@ -1,39 +1,51 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import AuthorList from '../containers/AuthorList';
 import VisibleTableList from '../containers/VisibleTableList';
+import Container from '@material-ui/core/Container';
+import styled from 'styled-components';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-}));
+//Overriding Styles
+const StyledBody = styled.div`
+    max-width: 1440px;
+    margin: 0 auto;
+`;
 
+const StyledContainer = styled(Container)`
+    margin-top: 60px;
+`;
+
+const StyledGrid = styled(Grid)`
+    &&{
+        @media (max-width: 959px) {
+            max-width: 100%;
+            flex-basis: 100%;
+        }
+    } 
+`;
+
+//Body components tree - including Publications table and Sidebar with Authors
 const Main = () => {
-  const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <Grid container spacing={3}>
-        <Grid item xs={10}>
-          <Paper className={classes.paper}>
-                <VisibleTableList />
-          </Paper>
-        </Grid>
-        <Grid item xs={2}>
-            <Paper className={classes.paper}>
-                <AuthorList />
-            </Paper>
-        </Grid>
-      </Grid>
-    </div>
+    <StyledBody>
+        <StyledContainer>
+            <Grid container spacing={3}>
+                <StyledGrid item xs={10}>
+                    <Paper>
+                        <VisibleTableList />
+                    </Paper>
+                </StyledGrid>
+                <StyledGrid item xs={2}>
+                    <Paper>
+                        <AuthorList />
+                    </Paper>
+                </StyledGrid>
+            </Grid>
+        </StyledContainer>
+      
+    </StyledBody>
   );
 }
 

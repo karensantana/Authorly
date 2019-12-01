@@ -1,10 +1,11 @@
 import { createSelector } from 'reselect'
-
 const getPublications = state => state.publications
 const getSortingKey = state => state.dataOrderParameters.sortingKey
 const getSortingOrder = state => state.dataOrderParameters.sortingOrder
 const getAuthor = state => state.authors.selectedAuthor 
 const getSearchByTitle = state => state.dataOrderParameters.searchTitle
+const getPage = state => state.dataOrderParameters.page
+const getRowsPerPage = state => state.dataOrderParameters.rowsPerPage
 
 //Sorting function
 function desc(a, b, orderBy) {
@@ -16,6 +17,9 @@ function desc(a, b, orderBy) {
     }
     return 0;
 }
+
+//List of Composed Selectors
+
 const getFilteredByTitle = createSelector(
     [getSearchByTitle, getPublications],
     (searchByTitle, publications ) => {
