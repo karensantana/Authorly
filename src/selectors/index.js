@@ -6,18 +6,15 @@ const getSortingOrder = state => state.dataOrderParameters.sortingOrder
 const getAuthor = state => state.authors.selectedAuthor 
 const getSearchByTitle = state => state.dataOrderParameters.searchTitle
 
-function compare(a, b) {
-    // Use toUpperCase() to ignore character casing
-    const titleA = a.title
-    const titleB = b.title
-  
-    let comparison = 0;
-    if (titleA > titleB) {
-      comparison = 1;
-    } else if (titleA < titleB) {
-      comparison = -1;
+//Sorting function
+function desc(a, b, orderBy) {
+    if (b[orderBy] < a[orderBy]) {
+      return -1;
     }
-    return comparison;
+    if (b[orderBy] > a[orderBy]) {
+      return 1;
+    }
+    return 0;
 }
 const getFilteredByTitle = createSelector(
     [getSearchByTitle, getPublications],
@@ -43,7 +40,7 @@ const getFilteredByAuthor = createSelector(
         else {
             return (
                 publications.filter( function (publication) {
-                    return publication.author === author.email
+                    return publication.authorEmail === author.email
                 })
             );
         }
@@ -53,25 +50,16 @@ const getFilteredByAuthor = createSelector(
 export const getSortedPublications = createSelector(
     [getFilteredByAuthor, getSortingKey, getSortingOrder],
     (publications, sortingKey, sortingOrder) => {
-           
         switch (sortingKey) {
-            case 'DATE':
-                if( sortingOrder === 'ASC') {
-                  return publications.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0)); 
-                }
-                else {
-                    return publications.sort((a,b) => (a.date < b.date) ? 1 : ((b.date < a.date) ? -1 : 0));  
-                }
-            case 'TITLE':
-                if( sortingOrder === 'ASC') {
-                    return publications.sort(compare); 
-                }
-                else {
-                    return publications.sort((a,b) => (a.date < b.date) ? 1 : ((b.date < a.date) ? -1 : 0));  
-                }
+            case 'date':
+                return publications.sort(sortingOrder === 'asc' ? 
+                    (a,b) => { return new Date(a.date) - new Date(b.date) } : (a,b) => { return -new Date(a.date) - new Date(b.date)
+                });;
+            case 'authorEmail':
+                return publications.sort(sortingOrder === 'desc' ? (a, b) => desc(a, b, sortingKey) : (a, b) => -desc(a, b, sortingKey)); 
             default:
-                
-                
+                return publications;
         }
+                   
     }
 )

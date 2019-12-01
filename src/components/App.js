@@ -1,14 +1,10 @@
 import React from 'react';
-import AuthorList from '../containers/AuthorList';
-import SearchTerm from '../containers/SearchTerm';
-import VisibleTableList from '../containers/VisibleTableList';
+import Main from '../components/Main';
 
 const App = () => {
     return (
         <div>
-            <SearchTerm />
-            <AuthorList />
-            <VisibleTableList />
+            <Main />
         </div>
     )
 }
