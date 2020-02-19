@@ -1,12 +1,13 @@
 import React from 'react';
-import AuthorList from './AuthorList';
-import VisibleTableList from '../containers/VisibleTableList';
+import Main from '../components/Main';
+import Header from './Header'
 
+//Main Component Tree
 const App = () => {
     return (
         <div>
-            <AuthorList />
-            <VisibleTableList />
+            <Header />
+            <Main />
         </div>
     )
 }
